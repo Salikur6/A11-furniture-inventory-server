@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -29,18 +29,52 @@ async function run() {
             const query = {};
             const cursor = productCollection.find(query);
             const result = await cursor.toArray();
-            console.log(result);
-            res.send(result);
-
-        })
-
-        app.post('/inventory', async (req, res) => {
-            const item = req.body;
-            const result = await productCollection.insertOne(item);
             console.log(result)
             res.send(result);
+
         })
 
+        app.get('/inventory/:itemId', async (req, res) => {
+            const id = req.params.itemId;
+            const query = { _id: ObjectId(id) };
+            const result = await productCollection.findOne(query);
+            console.log(result)
+            res.send(result)
+        })
+
+
+        app.put('/inventory/:itemId', async (req, res) => {
+            const id = req.params.itemId;
+            const update = req.body;
+            console.log(update);
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true }
+            console.log(options)
+            const updateDoc = {
+                $set: {
+                    quantity: update.quantity,
+                }
+            };
+            const result = await productCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
+
+
+        app.put('/inventory/:itemId', async (req, res) => {
+            const id = req.params.itemId;
+            const update = req.body;
+            console.log(update)
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    ...update,
+                },
+            };
+            const result = await productCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
 
 
 
