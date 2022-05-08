@@ -45,7 +45,6 @@ async function run() {
             const result = await productCollection.deleteOne(query);
             console.log(result)
             res.send(result);
-
         })
 
 
@@ -83,7 +82,7 @@ async function run() {
             res.send(result);
         })
 
-        app.put('/inventory/:itemId', async (req, res) => {
+        app.put('/inventoryy/:itemId', async (req, res) => {
             const id = req.params.itemId;
             const update = req.body;
             console.log(update)
@@ -97,9 +96,6 @@ async function run() {
             const result = await productCollection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
-
-
-
 
         console.log('connected to db')
     }
