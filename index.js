@@ -38,7 +38,7 @@ async function run() {
             res.send(result);
         })
 
-        app.delete('/manageinventory/:itemId', async (req, res) => {
+        app.delete('/itemdelete/:itemId', async (req, res) => {
             const id = req.params.itemId;
             const query = { _id: ObjectId(id) }
             console.log(query)
