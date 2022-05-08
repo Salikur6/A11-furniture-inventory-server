@@ -25,6 +25,18 @@ async function run() {
         const productCollection = client.db('inventoryItems').collection('items');
 
 
+
+
+        app.post('/addproduct', async (req, res) => {
+            const keys = req.body;
+            console.log(keys)
+            const result = await productCollection.insertOne(keys);
+            console.log(result)
+            res.send(result);
+        })
+
+
+
         app.get('/inventory', async (req, res) => {
             const query = {};
             const cursor = productCollection.find(query);
@@ -59,8 +71,6 @@ async function run() {
             res.send(result);
         })
 
-
-
         app.put('/inventory/:itemId', async (req, res) => {
             const id = req.params.itemId;
             const update = req.body;
@@ -75,6 +85,7 @@ async function run() {
             const result = await productCollection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
+
 
 
 
