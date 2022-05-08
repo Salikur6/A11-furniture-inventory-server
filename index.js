@@ -38,6 +38,8 @@ async function run() {
             res.send(result);
         })
 
+        // Delete method not working
+
         // app.delete('/itemdelete/:itemId', async (req, res) => {
         //     const id = req.params.itemId;
         //     const query = { _id: ObjectId(id) }
