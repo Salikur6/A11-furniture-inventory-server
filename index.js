@@ -19,11 +19,15 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cdztj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
+console.log(uri);
+
+
 async function run() {
     try {
         await client.connect();
         const productCollection = client.db('inventoryItems').collection('items');
 
+        console.log('all routes should be working')
 
 
 
@@ -35,6 +39,15 @@ async function run() {
             res.send(result);
         })
 
+        app.delete('itemdelete/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            console.log(query)
+            const result = await productCollection.deleteOne(query);
+            console.log(result)
+            res.send(result);
+
+        })
 
 
         app.get('/inventory', async (req, res) => {
