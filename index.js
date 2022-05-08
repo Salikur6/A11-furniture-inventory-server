@@ -38,14 +38,14 @@ async function run() {
             res.send(result);
         })
 
-        app.delete('/itemdelete/:itemId', async (req, res) => {
-            const id = req.params.itemId;
-            const query = { _id: ObjectId(id) }
-            console.log(query)
-            const result = await productCollection.deleteOne(query);
-            console.log(result)
-            res.send(result);
-        })
+        // app.delete('/itemdelete/:itemId', async (req, res) => {
+        //     const id = req.params.itemId;
+        //     const query = { _id: ObjectId(id) }
+        //     console.log(query)
+        //     const result = await productCollection.deleteOne(query);
+        //     console.log(result)
+        //     res.send(result);
+        // })
 
 
         app.get('/inventory', async (req, res) => {
