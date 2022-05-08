@@ -82,7 +82,7 @@ async function run() {
             res.send(result);
         })
 
-        app.put('/inventoryy/:itemId', async (req, res) => {
+        app.put('/stockinventory/:itemId', async (req, res) => {
             const id = req.params.itemId;
             const update = req.body;
             console.log(update)
