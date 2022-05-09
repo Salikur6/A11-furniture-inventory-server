@@ -3,7 +3,7 @@ const cors = require('cors');
 require("dotenv").config();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 
 
 // midllewere
@@ -32,10 +32,17 @@ async function run() {
 
         app.post('/addproduct', async (req, res) => {
             const keys = req.body;
+            const auth = req.headers.authorization;
+            console.log(auth)
             console.log(keys)
-            const result = await productCollection.insertOne(keys);
-            console.log(result)
-            res.send(result);
+            if (keys.email === auth) {
+                const result = await productCollection.insertOne(keys);
+                console.log(result)
+                res.send(result);
+            } else {
+                res.send({ Success: 'unAuthorized Access' })
+            }
+
         })
 
         // Delete method not working
