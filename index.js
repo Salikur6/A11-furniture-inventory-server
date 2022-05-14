@@ -16,7 +16,7 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.cdztj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-console.log(uri);
+// console.log(uri);
 
 async function run() {
     try {
@@ -45,32 +45,32 @@ async function run() {
 
         })
 
-        // Delete method not working
+        // Delete method  working
 
-        // app.delete('/itemdelete/:itemId', async (req, res) => {
-        //     const id = req.params.itemId;
-        //     const query = { _id: ObjectId(id) }
-        //     console.log(query)
-        //     const result = await productCollection.deleteOne(query);
-        //     console.log(result)
-        //     res.send(result);
-        // })
+        app.delete('/itemdelete/:itemId', async (req, res) => {
+            const id = req.params.itemId;
+            const query = { _id: ObjectId(id) }
+
+            const result = await productCollection.deleteOne(query);
+            // console.log(result)
+            res.send(result);
+        })
 
 
         app.get('/inventory', async (req, res) => {
             const query = {};
             const cursor = productCollection.find(query);
             const result = await cursor.toArray();
-            console.log(result)
+            // console.log(result)
             res.send(result);
 
         })
 
         app.get('/inventory/:itemId', async (req, res) => {
             const id = req.params.itemId;
-            const query = { _id: ObjectId(id) };
+            const query = { _id: new ObjectId(id) };
             const result = await productCollection.findOne(query);
-            console.log(result)
+            // console.log(result)
             res.send(result)
         })
 
@@ -81,7 +81,7 @@ async function run() {
             console.log(update);
             const filter = { _id: ObjectId(id) }
             const options = { upsert: true }
-            console.log(options)
+            // console.log(options)
             const updateDoc = {
                 $set: {
                     quantity: update.quantity,
@@ -94,7 +94,7 @@ async function run() {
         app.put('/stockinventory/:itemId', async (req, res) => {
             const id = req.params.itemId;
             const update = req.body;
-            console.log(update)
+            // console.log(update)
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
